@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Treasure Hunter</title>
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div id="play-stage-container" class="container">
+    <div class="heading">
+      <div class="game-name">Treasure Hunter</div>
+      <div id="play-panel" class="panel">
+        <div class="score-round-container">
+          <p>Score:<span id="score">0</span>
+          <p>Round:<span id="round">0</span>
+        </div>
+        <button id="end-play" class="control">End play</button>
+      </div>
+      <div id="setup-panel" class="panel">
+        <button id="end-setup" class="control">End setup</button>
+      </div>
+    </div>
+    <div id="stage">
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <div id="end-stage-container">
+      <div id="outcome"></div>
+      <p class="restart">Tap anywhere to restart</p>
+    </div>
+    <div id="description-container">
+      <div id="description">
+        <p class="description-title">HOW TO PLAY</p>
+        <dl>
+          <dt>Setup:</dt>
+          <dd>Click on a cell.</dd>
+          <dd>Type letter to set the cell.</dd>
+          <dd>h: hero, k: killer, o: obstacle, 1-9: treasure</dd>
+          <dd>Click "End setup" to start the game.</dd>
+          <dt>Play:</dt>
+          <dd>Use "a", "d", "w", "x" to move the hero.</dd>
+          <dd>Try to hunt as many treasures as possible.</dd>
+          <dd>While all treasures be obtained, you win.</dd>
+          <dd>once the hero is caught by killes, you lose.</dd>
+      </dl>
+      <p class="description-start">Tap anywhere to start</p>
+    </div>
+    </div>
+  </div>
+  <script src="game_manager.js"></script>
+  <script src="hero.js"></script>
+  <script src="obstacle.js"></script>
+  <script src="killer.js"></script>
+  <script src="treasure.js"></script>
+  <script src="grid.js"></script>
+<script>
+  Array.prototype.removeElement = function(index) {
+    if (index < 0)
+      return this;
+    return this.slice(0, index).concat(this.slice(index + 1, this.length));
+  }
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  var gameManager = new GameManager();
+  gameManager.initGame();
+
+
+</script>
+</body>
+</html>

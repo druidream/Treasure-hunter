@@ -1,0 +1,211 @@
+@CHARSET "UTF-8";
+
+body {
+	position: relative;
+	text-align: center;
+	font-family: "Arial";
+	color: #333333;
+}
+
+.container {
+	position: absolute;
+	width: 371px;
+	
+	background-color: #e3e3e3;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	box-shadow: inset 0 0 1px 1px #f6f6f6;
+	z-index: -100;
+}
+
+#end-stage-container {
+	position: absolute;
+	top: 0;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	display: none;
+	color: black;
+	
+	background:rgba(128, 128, 128, 0.8) none repeat scroll 0 0 !important;
+}
+
+.restart {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	text-align: center;
+	color: #CCC;
+}
+
+#description-container {
+	position: absolute;
+	top: 0;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	color: black;
+	text-align: left;
+	
+	background:rgba(255, 255, 255, 0.96) none repeat scroll 0 0 !important;
+}
+
+#description {
+	margin: 50px 10px auto 10px;
+	color: #666;
+	cursor: pointer;
+}
+
+#description .description-title {
+	font-size: 30px;
+	text-align: center;
+}
+
+#description dt {
+	line-height: 50px;
+}
+
+#description .description-start {
+	position: absolute;
+	margin-left: -20px;
+	bottom: 10px;
+	width: 100%;
+	text-align: center;
+	color: #CCC;
+}
+
+.heading {
+	position: relative;
+	height: 100px;
+	background-color: #FFFFDD;
+	border-radius: 3px 3px 0 0;
+}
+
+.game-name {
+	position: relative;
+	float: left;
+	width: 200px;
+	height: 100%;
+	line-height: 100px;
+	font-size: 24px;
+}
+
+.panel {
+	position: relative;
+	float: right;
+	width: 120px;
+	height: 100%;
+	margin-right: 5px;
+}
+
+.score-round-container {
+	margin: 5px auto;
+	background: #eeeeee;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	box-shadow: inset 0 0 1px 1px #f6f6f6;
+}
+
+.score-round-container p {
+	margin: 5px;
+}
+
+button.control {
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+	width: 120px;
+	
+	background: #e3e3e3;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+	box-shadow: inset 0 0 1px 1px #f6f6f6;
+	color: #333;
+	font: bold 12px/1 "helvetica neue", helvetica, arial, sans-serif;
+	padding: 8px 0 9px;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff;
+}
+
+button.control:hover {
+	background: #d9d9d9;
+	-webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+	box-shadow: inset 0 0 1px 1px #eaeaea;
+	color: #222;
+	cursor: pointer;
+}
+
+button.control:active {
+	background: #d0d0d0;
+	-webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
+	box-shadow: inset 0 0 1px 1px #e3e3e3;
+	color: #000;
+}
+
+#stage {
+	position: relative;
+	width: 361px;
+	height: 361px;
+	margin: 5px auto 5px auto;
+	background-color: #F9F9F9;
+	z-index: -100;
+}
+
+table {
+	border-collapse: collapse;
+	position: absolute;
+	width: 361px;
+	height: 361px;
+}
+
+td {
+	border: 1px solid #e3e3e3;
+}
+
+td:focus {
+	border: 2px solid #e3e3e3;
+}
+
+#outcome {
+	margin-top: 200px;
+	font-size: 48px;
+}
+
+.cell {
+	position: absolute;
+	line-height: 36px;
+	width: 35px;
+	height: 35px;
+}
+
+.hero {
+	/* background-color: #CCFFCC; */
+	background-image: url(../images/hero.png);
+	background-size: contain;
+	border: 0px;
+	z-index: -20;
+}
+
+.killer {
+	/* background-color: #FFCCCC; */
+	background-image: url(../images/killer.png);
+	background-size: contain;
+	z-index: -10;
+}
+
+.treasure {
+	/* background-color: #FFFFCC; */
+	background-image: url(../images/treasure.png);
+	background-size: contain;
+	z-index: -30;
+}
+
+.obstacle {
+	/* background-color: #CCCCCC; */
+	background-image: url(../images/obstacle.png);
+	background-size: contain;
+	z-index: -10;
+}
