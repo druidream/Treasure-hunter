@@ -399,4 +399,6 @@ GameManager.prototype.restartGame = function () {
 	this.score = 0;
 	this.round = 0;
 	this.outcome = "";
+	$("score").innerHTML = "0";
+	$("round").innerHTML = "0";
 }
