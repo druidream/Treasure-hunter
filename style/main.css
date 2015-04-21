@@ -5,9 +5,15 @@ body {
 	text-align: center;
 	font-family: "Arial";
 	color: #333333;
+	background-color: #F0F0F0;
 }
 
 .container {
+	margin: 100px auto;
+    width: 373px;
+}
+
+.game-container {
 	position: absolute;
 	width: 371px;
 	
