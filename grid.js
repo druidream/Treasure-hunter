@@ -46,6 +46,24 @@ Grid.prototype.surroundingCells = function (cell) {
 	return result;
 }
 
+Grid.prototype.isInsideGrid = function (x, y) {
+	return x >= 0 && x < this.dimension && y >= 0 && y < this.dimension;
+}
+
+Grid.prototype.canReach = function (x, y) {
+	if (!this.isInsideGrid(x, y)) {
+		return false;
+	}
+	if (this.cells[y][x]) {
+		return true;
+	}
+	var cell = this.cells[y][x];
+	if (cell instanceof Obstacle) {
+		return false;
+	}
+	
+}
+
 Grid.prototype.printGrid = function () {
 	var log = "";
 	for (var i=0; i<this.cells.length; i++) {

@@ -79,6 +79,8 @@ GameManager.prototype.addHero = function (x, y) {
 	if (!this.hero) {
 		this.hero = new Hero(x, y);
 		this.grid.addObject(this.hero);
+	} else {
+		this.errorMessage("You have set the hero.");
 	}
 }
 
@@ -150,12 +152,11 @@ GameManager.prototype.proceedToPlayStage = function () {
 
 GameManager.prototype.canAnyoneMove = function() {
 	// can hero move
-	var surroundingCellsOfHero = this.grid.surroundingCells(this.hero);
-	for (var i=0; i<surroundingCellsOfHero.length; i++) {
-		if (!(surroundingCellsOfHero[i] instanceof Obstacle)) {
-			return true;
-		}
+	var hero = this.hero;
+	if (this.grid.canReach(hero.x+1, hero.y) && this.grid.canReach(hero.x-1, hero.y)  && this.grid.canReach(hero.x, hero.y+1)  && this.grid.canReach(hero.x, hero.y-1)) {
+		return true;
 	}
+
 	// can killers move
 	for (var j=0; j<this.killers.length; j++) {
 		var surroundingCellsOfKiller = this.grid.surroundingCells(this.killers[j]);
@@ -301,6 +302,11 @@ GameManager.prototype.computersTurn = function() {
 					treasure.removeFromGrid();
 					this.grid.removeObject(treasure.x, treasure.y);
 					this.killerMoves(killer, cell.x, cell.y);
+					// no treasure left?
+					if (this.treasures.length == 0) { // end condition 3
+						this.outcome = "win";
+						this.proceedToEndStage();
+					}
 					break outerloop;
 				} else if (cell instanceof Obstacle) {
 					// do nothing
