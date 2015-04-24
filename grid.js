@@ -54,7 +54,7 @@ Grid.prototype.canReach = function (x, y) {
 	if (!this.isInsideGrid(x, y)) {
 		return false;
 	}
-	if (this.cells[y][x]) {
+	if (!this.cells[y][x]) {
 		return true;
 	}
 	var cell = this.cells[y][x];
@@ -62,6 +62,33 @@ Grid.prototype.canReach = function (x, y) {
 		return false;
 	}
 	
+}
+
+/**
+ * obstacles are presented in 1
+ * hero, killers, treasure and blank cells are presented in 0
+ */
+Grid.prototype.simpleGrid = function () {
+	var result = new Array();
+	for (var i = 0; i < this.cells.length; i++) {
+		var line = new Array();
+		for (var j = 0; j < this.cells[i].length; j++) {
+			var cell = this.cells[i][j];
+			if (cell instanceof Hero) {
+				line.push(0);
+			} else if (cell instanceof Killer) {
+				line.push(0);
+			} else if (cell instanceof Obstacle) {
+				line.push(1);
+			} else if (cell instanceof Treasure) {
+				line.push(0);
+			} else {
+				line.push(0);
+			}
+		}
+		result.push(line);
+	}
+	return result;
 }
 
 Grid.prototype.printGrid = function () {

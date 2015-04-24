@@ -169,6 +169,7 @@
     </div>
   </div>
 </div>
+  <script src="AstarPathFinding.js"></script>
   <script src="game_manager.js"></script>
   <script src="hero.js"></script>
   <script src="obstacle.js"></script>
@@ -176,12 +177,6 @@
   <script src="treasure.js"></script>
   <script src="grid.js"></script>
 <script>
-  Array.prototype.removeElement = function(index) {
-    if (index < 0)
-      return this;
-    return this.slice(0, index).concat(this.slice(index + 1, this.length));
-  }
-
   function $(id) {
     return document.getElementById(id);
   }

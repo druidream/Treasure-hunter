@@ -26,7 +26,7 @@ GameManager.prototype.initGame = function () {
 	$("play-panel").style.display = "none";
 	
 	$("end-setup").onclick = gameManager.proceedToPlayStage;
-	$("end-play").onclick = gameManager.proceedToEndStage; // end condition 1
+	$("end-play").onclick = gameManager.endByUser; // end condition 1
 
 	$("stage").addEventListener("mousedown", setupEventListener, false);
 	
@@ -215,6 +215,7 @@ GameManager.prototype.heroMoves = function(direction) {
 			if (this.treasures.length == 0) { // end condition 3
 				this.outcome = "win";
 				this.proceedToEndStage();
+				return;
 			}
 			
 			break;
@@ -256,17 +257,7 @@ GameManager.prototype.computersTurn = function() {
 		/* 
 		 * hunt for hero
 		 */
-		var moveDirection;
-		var slope = -(hero.y - killer.y) / (hero.x - killer.x);
-		if (hero.x >= killer.x && hero.y <= killer.y) {
-			var directionInDegree = Math.atan(slope)*180/Math.PI;
-		} else if (hero.x >= killer.x && hero.y > killer.y) {
-			var directionInDegree = Math.atan(slope)*180/Math.PI + 360;
-		} else {
-			var directionInDegree = Math.atan(slope)*180/Math.PI + 180;
-		}
-		
-		var possibleMoveDirectionInDegree = new Array();
+
 		innerloop:
 		for (var j=killer.x-1; j<=killer.x+1; j++) {
 			if (j < 0 || j > this.dimension - 1) {
@@ -313,47 +304,47 @@ GameManager.prototype.computersTurn = function() {
 				} else if (cell instanceof Killer) {
 					// do nothing
 				} else if (cell == null) {
-					/*
-					 * [-1,1]  [0,1]  [1,1]               31  32  33
-					 * [-1,0]  [0,0]  [1,0]      ==>      21  22  23
-					 * [-1,-1] [0,-1] [1,-1]              11  12  13
-					 */
-					var code = (killer.y-k+2)*10 + (j-killer.x+2);
-					switch (code){
-					case 11:possibleMoveDirectionInDegree.push(225);break;
-					case 12:possibleMoveDirectionInDegree.push(270);break;
-					case 13:possibleMoveDirectionInDegree.push(315);break;
-					case 21:possibleMoveDirectionInDegree.push(180);break;
-					case 22:break;
-					case 23:possibleMoveDirectionInDegree.push(0);break;
-					case 31:possibleMoveDirectionInDegree.push(135);break;
-					case 32:possibleMoveDirectionInDegree.push(90);break;
-					case 33:possibleMoveDirectionInDegree.push(45);break;
-					}
+					// do nothing
 				}
 			}
 		}
-		//
-		var moveDirectionInDegree;
-		var degreeDifference = 180;
-		for (var m=0; m<possibleMoveDirectionInDegree.length; m++) {
-			if (Math.abs(possibleMoveDirectionInDegree[m]-directionInDegree) < degreeDifference) {
-				degreeDifference = Math.abs(possibleMoveDirectionInDegree[m]-directionInDegree);
-				moveDirectionInDegree = possibleMoveDirectionInDegree[m];
+		
+		// A-star path finding
+		var grid = this.grid.simpleGrid();
+		var pathfinding = new AstarPathFinding(grid, false);
+		var point = pathfinding.findPath(new Point(this.hero.x, this.hero.y), new Point(killer.x, killer.y));
+		if (point) {
+			// maybe the cell is occupied by a killer
+			var target = point.parentPoint;
+			var isTargetCellOccupiedByKiller = false;
+			for (var j = 0; j < this.killers.length; j++) {
+				if (target.x == this.killers[j].x && target.y == this.killers[j].y) {
+					isTargetCellOccupiedByKiller = true;
+					break;
+				}
 			}
-		}
-		switch (moveDirectionInDegree) {
-		case 0  : this.killerMoves(killer, killer.x+1, killer.y); break;
-		case 45 : this.killerMoves(killer, killer.x+1, killer.y-1); break;
-		case 90 : this.killerMoves(killer, killer.x, killer.y-1); break;
-		case 135: this.killerMoves(killer, killer.x-1, killer.y-1); break;
-		case 180: this.killerMoves(killer, killer.x-1, killer.y); break;
-		case 225: this.killerMoves(killer, killer.x-1, killer.y+1); break;
-		case 270: this.killerMoves(killer, killer.x, killer.y+1); break;
-		case 315: this.killerMoves(killer, killer.x+1, killer.y+1); break;
+			// if the cell is occupied by a killer, re-computer the path with this killer
+			if (isTargetCellOccupiedByKiller) {
+				grid[target.y][target.x] = 1;
+				var pathfindingWithKiller = new AstarPathFinding(grid, false);
+				var pointWithKiller = pathfindingWithKiller.findPath(new Point(this.hero.x, this.hero.y), new Point(killer.x, killer.y));
+				if (pointWithKiller) {
+					var targetWithKiller = pointWithKiller.parentPoint;
+					// make sure this move does not digress
+					var movement = (Math.abs(pointWithKiller.x - killer.x) + Math.abs(pointWithKiller.y - killer.y) == 2) ? 14 : 10;
+					if (targetWithKiller.F < target.F + movement) {
+						// success move
+						this.killerMoves(killer, targetWithKiller.x, targetWithKiller.y);
+					}
+				}
+			} else {
+				// success move
+				this.killerMoves(killer, target.x, target.y);
+			}
+		} else {
+			// path blocked, do nothing
 		}
 	} // end killers for-loop
-	// is game end?
 
 	this.roundEnds();
 }
@@ -361,6 +352,11 @@ GameManager.prototype.computersTurn = function() {
 GameManager.prototype.killerMoves = function(killer, x, y) {
 	this.grid.moveObjectTo(killer.x, killer.y , x, y);
 	killer.movesTo(x, y);
+}
+
+GameManager.prototype.endByUser = function() {
+	gameManager.outcome = "lose";
+	gameManager.proceedToEndStage();
 }
 
 /*
